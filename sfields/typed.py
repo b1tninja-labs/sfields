@@ -1,4 +1,5 @@
-"""typed structured fields and their dictionary form (RFC 9651).
+"""the field_type entry point: a field value parsed as a List, Dictionary or Item (RFC 9651
+sec. 4.2).
 
 Every object in this module is a placeholder until the milestone named in ROADMAP.md lands. A
 stub raises instead of returning a plausible empty value: a protocol library that silently

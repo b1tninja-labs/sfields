@@ -10,7 +10,7 @@ name = "sfields"
 dynamic = ["version"]
 # The description names the protocol and the documents, because that is the only text
 # a person searching PyPI will read before deciding this is the library they need.
-description = "Structured Field Values for HTTP: parser and serializer for lists, dictionaries, parameters and inner and outer coding, with an explicit type for every item"
+description = "Structured Field Values for HTTP: parser and serializer for lists, inner lists, dictionaries and parameters, with an explicit type for every item"
 readme = "README.md"
 license = "Apache-2.0"
 requires-python = ">3.12"

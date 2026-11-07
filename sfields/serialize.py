@@ -14,18 +14,18 @@ __all__ = [
 
 
 def serialize_list(members: list) -> str:
-    """Pending behaviour defined by RFC 9651.
+    """Pending behaviour defined by RFC 9651 sec. 4.1.1.
 
     Not implemented yet. See the ``serialize.serialize_list()`` row in ROADMAP.md; this
     stub raises on purpose so nothing downstream mistakes it for working code.
     """
-    raise NotImplementedError("serialize_list() is not implemented: RFC 9651")
+    raise NotImplementedError("serialize_list() is not implemented: RFC 9651 sec. 4.1.1")
 
 
 def serialize_dictionary(entries: dict) -> str:
-    """Pending behaviour defined by RFC 9651.
+    """Pending behaviour defined by RFC 9651 sec. 4.1.2.
 
     Not implemented yet. See the ``serialize.serialize_dictionary()`` row in ROADMAP.md;
     this stub raises on purpose so nothing downstream mistakes it for working code.
     """
-    raise NotImplementedError("serialize_dictionary() is not implemented: RFC 9651")
+    raise NotImplementedError("serialize_dictionary() is not implemented: RFC 9651 sec. 4.1.2")

@@ -1,8 +1,8 @@
 """sfields -- structured field values, current specification.
 
 The HTTP Specification maintenance and transport area published RFC 9651 in September 2024,
-which obsoletes RFC 8941 and adds the pieces everyone needed: inner and outer coding, keyed
-structured fields and typed fields.
+which obsoletes RFC 8941 and adds two item types, Dates and Display Strings (RFC 9651
+Appendix D).
 """
 
 from __future__ import annotations

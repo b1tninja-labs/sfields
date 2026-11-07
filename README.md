@@ -12,7 +12,7 @@ and the test suite records that rather than hiding it. Read
 
 sfields -- structured field values, current specification
 
-The HTTP Specification maintenance and transport area published RFC 9651 in September 2024, which obsoletes RFC 8941 and adds the pieces everyone needed: inner and outer coding, keyed structured fields and typed fields. The reference Python implementation the working group maintained is gone from PyPI, checked on 2026-11-05, and the name structured-fields could not safely reuse it anyway because a delisted name stays reserved. New HTTP fields are specified in this notation constantly, so a Python project either hand-rolls a parser for each one or vendors a stale copy of the deprecated code. This is the small library that ends that.
+The HTTP Specification maintenance and transport area published RFC 9651 in September 2024, which obsoletes RFC 8941 and adds two item types, Dates and Display Strings (RFC 9651 Appendix D). The reference Python implementation the working group maintained is gone from PyPI, checked on 2026-11-05, and the name structured-fields could not safely reuse it anyway because a delisted name stays reserved. New HTTP fields are specified in this notation constantly, so a Python project either hand-rolls a parser for each one or vendors a stale copy of the deprecated code. This is the small library that ends that.
 
 ## The gap, with a date
 
@@ -29,8 +29,8 @@ which is why the table below carries dates instead of adjectives.
 What this project intends to add:
 
 - implement RFC 9651 rather than RFC 8941, including the additions the older text lacks
-- inner and outer coding, so a field value can carry a nested structured field
-- keyed dictionaries and typed values with round trip guarantees
+- Inner Lists and parameters on both the parse and the serialise path (RFC 9651 sec. 3.1.1, sec. 3.1.2)
+- Dates and Display Strings, the two types RFC 8941 lacks, with round trip guarantees
 - strict error reporting that names the byte position, because header bugs are silent bugs
 - a conformance runner over the working group test suite, vendored as data with its provenance recorded
 
@@ -42,13 +42,13 @@ document, which is the honest grain size for a plan. See [docs/rfc-map.md](docs/
 
 | Document | Status | Published | What it gives this project |
 |---|---|---|---|
-| RFC 9651 | Proposed Standard | 2024-09 | the current syntax and the coding and typing additions |
+| RFC 9651 | Proposed Standard | 2024-09 | the current syntax, plus the Date and Display String types |
 | RFC 8941 | Obsolete | 2021-02 | what most existing notes and libraries still describe |
 | RFC 9110 | Internet Standard (STD 97) | 2022-06 | the field and trailer model this notation describes values for |
 
 ### Errata watch
 
-- RFC 9651 carries 1 verified erratum. Read it before writing the tests, not after.
+- RFC 9651 carries 1 verified erratum, 8869 (Technical), sec. 3.3: the list of item types omits Display Strings; the corrected text adds Display String (sec. 3.3.8). Read it before writing the tests, not after.
 - RFC 8941 is obsolete: cite it only when explaining what changed, never as the norm.
 
 ## Module layout
@@ -56,11 +56,11 @@ document, which is the honest grain size for a plan. See [docs/rfc-map.md](docs/
 | Module | Responsibility |
 |---|---|
 | `parse` | list and dictionary parsing with member and parameter structure (RFC 9651) |
-| `item` | the item types: integers, decimals, strings, tokens, byte sequences, booleans, dates |
+| `item` | the item types: integers, decimals, strings, tokens, byte sequences, booleans, dates, display strings |
 | `serialize` | canonical serialisation with byte-exact round trip (RFC 9651) |
-| `coding` | inner and outer coding of nested fields (RFC 9651) |
-| `typed` | typed structured fields and their dictionary form (RFC 9651) |
-| `keys` | keyed structured fields for dictionaries addressed by key (RFC 9651) |
+| `coding` | Inner Lists: parse and serialise (RFC 9651 sec. 3.1.1) |
+| `typed` | the field_type entry point: a field value parsed as a List, Dictionary or Item (RFC 9651 sec. 4.2) |
+| `keys` | dictionary and parameter keys (RFC 9651 sec. 4.1.1.3, sec. 4.2.3.3) |
 | `errors` | positional parse errors rather than a bare ValueError |
 | `conformance` | the runner that replays the vendored test vectors |
 
@@ -74,7 +74,8 @@ document, which is the honest grain size for a plan. See [docs/rfc-map.md](docs/
 ## Install
 
 ```bash
-git clone https://github.com/b1tninja/sfields.cd sfields
+git clone https://github.com/b1tninja/sfields.git
+cd sfields
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\\Scripts\\Activate.ps1
 pip install -e ".[dev]"

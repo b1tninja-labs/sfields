@@ -1,6 +1,6 @@
 # Instructions for coding agents
 
-Structured Field Values for HTTP: parser and serializer for lists, dictionaries, parameters and inner and outer coding, with an explicit type for every item.
+Structured Field Values for HTTP: parser and serializer for lists, inner lists, dictionaries and parameters, with an explicit type for every item.
 
 Primary documents are listed in `docs/rfc-map.md` with statuses and known errata.
 The obligation table in `ROADMAP.md` is the work queue, and `README.md` explains
@@ -25,11 +25,13 @@ and Windows, plus the suite under `python -O`.
 These are the points where a plausible-looking change makes the project wrong
 rather than merely incomplete.
 
-1. **Roadmap honesty.** Never change a `ROADMAP.md` row from `[ ]` to `[x]` unless
-   the test named in its `Evidence` cell exists and passes. `tests/test_roadmap_rows.py`
-   fails on any row that claims done without a named test, and that check is the
-   reason the roadmap can be trusted. Do not weaken it, skip it, or delete it to
-   get a green run.
+1. **Roadmap honesty.** Never change a `ROADMAP.md` row from `[ ]` to `[ok]` unless
+   the test named in its `Where` cell exists, passes, and would fail if the behaviour
+   regressed. A Where cell marked `(to be written)` names a test nobody has written:
+   write it, then drop the marker in the same commit that flips the row.
+   `tests/test_roadmap_rows.py` checks only that every row names a callable the
+   package defines; it cannot tell a passing test from a missing one, so this rule
+   is the check. Do not weaken that test, skip it, or delete it to get a green run.
 2. **No silent stubs.** Code that is not implemented raises `NotImplementedError`.
    Never return an empty value, an empty collection, or a result object that reports
    success. A protocol library that answers nothing is worse than one that refuses
@@ -46,7 +48,7 @@ rather than merely incomplete.
 
 ## Read before implementing
 
-- RFC 9651 carries 1 verified erratum. Read it before writing the tests, not after.
+- RFC 9651 carries 1 verified erratum, 8869 (Technical), sec. 3.3: the list of item types omits Display Strings; the corrected text adds Display String (sec. 3.3.8). Read it before writing the tests, not after.
 - RFC 8941 is obsolete: cite it only when explaining what changed, never as the norm.
 
 ## Protocol work

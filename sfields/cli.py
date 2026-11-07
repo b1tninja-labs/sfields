@@ -17,7 +17,7 @@ Examples:
 def build_parser():
     return argparse.ArgumentParser(
         prog="sfields",
-        description="Structured Field Values for HTTP: parser and serializer for lists, dictionaries, parameters and inner and outer coding, with an explicit type for every item",
+        description="Structured Field Values for HTTP: parser and serializer for lists, inner lists, dictionaries and parameters, with an explicit type for every item",
         epilog=USAGE,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )

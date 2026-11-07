@@ -14,18 +14,18 @@ __all__ = [
 
 
 def parse_list(raw: str) -> list:
-    """Pending behaviour defined by RFC 9651.
+    """Pending behaviour defined by RFC 9651 sec. 4.2.1.
 
     Not implemented yet. See the ``parse.parse_list()`` row in ROADMAP.md; this stub
     raises on purpose so nothing downstream mistakes it for working code.
     """
-    raise NotImplementedError("parse_list() is not implemented: RFC 9651")
+    raise NotImplementedError("parse_list() is not implemented: RFC 9651 sec. 4.2.1")
 
 
 def parse_dictionary(raw: str) -> dict:
-    """Pending behaviour defined by RFC 9651.
+    """Pending behaviour defined by RFC 9651 sec. 4.2.2.
 
     Not implemented yet. See the ``parse.parse_dictionary()`` row in ROADMAP.md; this
     stub raises on purpose so nothing downstream mistakes it for working code.
     """
-    raise NotImplementedError("parse_dictionary() is not implemented: RFC 9651")
+    raise NotImplementedError("parse_dictionary() is not implemented: RFC 9651 sec. 4.2.2")
