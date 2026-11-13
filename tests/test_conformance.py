@@ -39,6 +39,17 @@ def test_vendored_suite_passes(path):
     assert {s.name for s in result.skipped} <= EXPECTED_SKIPS
 
 
+def test_large_generated():
+    # the generated stress file: pin the case count so a truncated vendor copy is noticed
+    path = DATA / "large-generated.json"
+    cases = load_cases(path)
+    assert len(cases) == 11
+    result = run_suite(cases)
+    assert result.ok
+    assert result.passed == 11
+    assert not result.skipped
+
+
 def test_suite_covers_every_type():
     seen = set()
     for path in FILES:

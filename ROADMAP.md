@@ -52,7 +52,7 @@ drift apart within one release, and the document becomes useless exactly when it
 | `limits.field-length` | implementation limit, not an RFC rule: 1 MiB per field value (`typed.MAX_FIELD_LENGTH`) | `[ok]` | `tests/test_parse.py::test_huge_input_fails_fast` | M1 |
 | `limits.byte-sequence-16384` | RFC 9651 sec. 3.3.5: at least 16384 decoded octets | `[ok]` | `tests/test_item.py::test_byte_sequence_16384` | M2 |
 | `parse.never-crashes` | hostile input: any text parses or raises ParseError, nothing else | `[ok]` | `tests/test_parse.py::test_parse_never_crashes_only_refuses` | M1 |
-| `conformance.large-generated` | suite file `large-generated.json` (727 KB) is not vendored; run it once from a checkout and pin the count | `[ ]` | `tests/test_conformance.py::test_large_generated` (to be written) | M5 |
+| `conformance.large-generated` | `large-generated.json` (727,664 bytes, sha256 `ade790e9...b4dbfab14d3c4`) vendored at the pinned commit; 11 cases, all pass, none skipped | `[ok]` | `tests/test_conformance.py::test_large_generated` | M5 |
 | `interop.non-python` | design: interoperability evidence against a non-Python implementation (README publication checklist); `http-sf` is Python and is not that | `[ ]` | `docs/interop.md` (to be written) | M6 |
 | `positioning.incumbent` | design: PORTFOLIO D15 incumbent re-check - `http-sf` 1.5.0 is live (owner decision, section 5) | `[ ]` | an owner decision, no test | M6 |
 
@@ -62,7 +62,7 @@ drift apart within one release, and the document becomes useless exactly when it
 - M2 byte sequences, dates, display strings and tokens with their edge cases, including erratum 8869 (done)
 - M3 Inner Lists, parse and serialise (done)
 - M4 the field_type entry point: List, Dictionary or Item (RFC 9651 sec. 4.2) (done)
-- M5 conformance runner over the vendored suite, reported in CI (runner done; all 22 vendored files pass; `large-generated.json` is not vendored; CI runs the whole suite)
+- M5 conformance runner over the vendored suite, reported in CI (runner done; all 23 vendored files pass; `large-generated.json` is vendored and passes; CI runs the whole suite)
 - M6 publication: 0.1.0 with the suite pass count on the landing page (blocked on the incumbent decision in section 5)
 
 Every milestone is accepted by its rows above flipping to `[ok]` with a named test, not by
