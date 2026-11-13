@@ -4,8 +4,15 @@ The format follows Keep a Changelog, and this project adheres to Semantic Versio
 
 ## Unreleased
 
-Nothing yet. This repository is a shell: the public surface exists as typed stubs that raise
-`NotImplementedError`, and [ROADMAP.md](ROADMAP.md) lists what has to happen first.
+### Added
+
+- RFC 9651 parsing and serialisation: `parse_field`, `parse_item`, `parse_list`, `parse_dictionary`,
+  `inner_parse`, `parse_key`, `serialize_field`, `serialize_item`, `serialize_list`,
+  `serialize_dictionary`, `inner_serialize`, with the `model` types and positional `ParseError`.
+- `conformance.run_suite` and the vendored HTTP Working Group `structured-field-tests`
+  (commit `10781e4`, BSD-style licence kept beside the data).
+- `python -m sfields parse VALUE --type {list,dictionary,item} [--json]`.
+- Hypothesis round-trip and never-crashes properties; RFC 9651's own examples as vectors.
 
 ## 0.0.0 - 2026-11-05
 

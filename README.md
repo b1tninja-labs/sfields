@@ -5,25 +5,39 @@
      the badges stay commented out until the tag exists.
 -->
 
-**Pre-alpha shell.** The package surface, the obligation matrix and the CI gates exist.
-No protocol behaviour is implemented: every public function raises `NotImplementedError`,
-and the test suite records that rather than hiding it. Read
-[ROADMAP.md](ROADMAP.md) before depending on any of it.
+**Pre-alpha, implemented.** Parsing and serialisation of RFC 9651 Structured Field Values are
+complete: Items, Inner Lists, Lists, Dictionaries and Parameters, all eight item types
+(Integer, Decimal, String, Token, Byte Sequence, Boolean, Date, Display String), with
+positional errors. The HTTP Working Group's `structured-field-tests` are vendored and all
+2147 vectors in the 22 vendored files pass (two `can_fail` padding cases are skipped on
+purpose). Not published: see the incumbent note below and [ROADMAP.md](ROADMAP.md).
+
+```python
+from sfields import parse_field, serialize_field
+
+fields = parse_field(b'a=1, b;tok=x, c=(1 2);q=%"f%c3%bc"', "dictionary")
+fields["c"].params["q"]          # DisplayString('fü')
+serialize_field(fields)          # 'a=1, b;tok=x, c=(1 2);q=%"f%c3%bc"'
+```
+
+Dependencies: none (standard library only). `sfields` is a leaf; `h3tunnel` uses it by sibling
+path for the `Capsule-Protocol` header.
 
 sfields -- structured field values, current specification
 
-The HTTP Specification maintenance and transport area published RFC 9651 in September 2024, which obsoletes RFC 8941 and adds two item types, Dates and Display Strings (RFC 9651 Appendix D). The reference Python implementation the working group maintained is gone from PyPI, checked on 2026-11-05, and the name structured-fields could not safely reuse it anyway because a delisted name stays reserved. New HTTP fields are specified in this notation constantly, so a Python project either hand-rolls a parser for each one or vendors a stale copy of the deprecated code. This is the small library that ends that.
+The HTTP Specification maintenance and transport area published RFC 9651 in September 2024, which obsoletes RFC 8941 and adds two item types, Dates and Display Strings (RFC 9651 Appendix D). The older reference implementation, `http-sfv` (RFC 8941), is deprecated by its author. **Its replacement, `http-sf` 1.5.0 (2026-10-23), implements RFC 9651 and is live**, which this README previously missed: the claim here that the reference implementation was gone was true of `http-sfv` only. Whether this project should publish is an open owner decision (ROADMAP section 5). What it offers over a hand-rolled parser is the same thing the others do; what it offers over `http-sf` is a typed model with one class per item type, a conformance runner shipped in the package, and positional errors that name the RFC section.
 
 ## The gap, with a date
 
-PyPI was queried on 2026-11-05 for this name and for every neighbouring project. Landscape
+PyPI was queried on 2026-11-05 and again on 2026-11-13 for this name and for every neighbouring project. Landscape
 claims rot quickly: two projects in this portfolio shipped within five days of the survey,
 which is why the table below carries dates instead of adjectives.
 
 | Project | Version | Last release | Why it is not this project |
 |---|---|---|---|
-| structured-field-values | - | - | the working group implementation, deprecated and no longer installable |
-| structured-fields | - | - | absent from PyPI (2026-11-05) |
+| http-sf | 1.5.0 | 2026-10-23 | **live**: RFC 9651, depends on `typing_extensions` only (checked 2026-11-13) |
+| http-sfv | 0.9.9 | 2024-01-25 | deprecated by its author in favour of `http-sf`; RFC 8941 only |
+| structured-field-values, structured-fields | - | - | absent from PyPI (2026-11-13) |
 | structured | 0.1 | 2016-01-14 | an unrelated query language for data structures |
 
 What this project intends to add:
@@ -56,7 +70,8 @@ document, which is the honest grain size for a plan. See [docs/rfc-map.md](docs/
 | Module | Responsibility |
 |---|---|
 | `parse` | list and dictionary parsing with member and parameter structure (RFC 9651) |
-| `item` | the item types: integers, decimals, strings, tokens, byte sequences, booleans, dates, display strings |
+| `model` | one frozen dataclass per item type, `Item`, `InnerList`, ordered `Params` and `Dictionary` |
+| `item` | scanners for the item types and parameters: integers, decimals, strings, tokens, byte sequences, booleans, dates, display strings |
 | `serialize` | canonical serialisation with byte-exact round trip (RFC 9651) |
 | `coding` | Inner Lists: parse and serialise (RFC 9651 sec. 3.1.1) |
 | `typed` | the field_type entry point: a field value parsed as a List, Dictionary or Item (RFC 9651 sec. 4.2) |
